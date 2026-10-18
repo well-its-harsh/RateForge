@@ -1,0 +1,26 @@
+server:
+  port: 3000
+
+spring:
+  application:
+    name: rateforge
+  data:
+    redis:
+      host: ${REDIS_HOST:positive-sailfish-152046.upstash.io}
+      port: ${REDIS_PORT:6379}
+      username: ${REDIS_USERNAME:default}
+      password: ${REDIS_PASSWORD:gQAAAAAAAlHuAAIgcDE2OWEzMmQyMDBmYWU0ZTI5YjE0N2M4YmJiMzgwOGI0ZA}
+      ssl:
+        enabled: true
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          shutdown-timeout: 2000ms
+
+logging:
+  level:
+    root: INFO
+    com.rateforge: DEBUG

@@ -1,0 +1,45 @@
+server:
+  port: 3000
+
+spring:
+  application:
+    name: rateforge
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      ssl:
+        enabled: false
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          shutdown-timeout: 2000ms
+
+logging:
+  level:
+    root: INFO
+    com.rateforge: DEBUG
+
+ratelimit:
+  enabled: true
+  algorithm: TOKEN_BUCKET  # TOKEN_BUCKET, SLIDING_WINDOW, or LEAKY_BUCKET
+  headerName: X-API-Key
+  excludePaths: /health,/actuator,/demo/info
+  tiers:
+    by-tier:
+      free:
+        capacity: 100                # 100 requests per hour
+        windowSizeMs: 3600000        # 1 hour window
+        rate: 0.0277                 # 100/(60*60) tokens/sec or leak rate
+      pro:
+        capacity: 1000               # 1000 requests per hour
+        windowSizeMs: 3600000        # 1 hour window
+        rate: 0.2778                 # 1000/(60*60) tokens/sec or leak rate
+      enterprise:
+        capacity: 1000000            # Effectively unlimited
+        windowSizeMs: 3600000        # 1 hour window
+        rate: 277.8                  # 1000000/(60*60) tokens/sec or leak rate
+
